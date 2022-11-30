@@ -131,7 +131,7 @@ const EditModal = ({ job }: Props) => {
             Cancel
           </RiseButton>
           <RiseButton variant='contained' color='error' onClick={handleEdit}>
-            Approve
+            Save
           </RiseButton>
         </DialogActions>
       </Dialog>
