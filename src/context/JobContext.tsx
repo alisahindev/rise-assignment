@@ -1,5 +1,11 @@
 // ** React Imports
-import { createContext, ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { fetcher } from "src/utils/fetcher";
 
 const JobContext = createContext(null as any);
@@ -33,7 +39,7 @@ const JobProvider = ({ children }: Props) => {
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<IJobPriority>();
   const [sort, setSort] = useState<ISortType>({
-    sortBy: "jobName",
+    sortBy: "jobPriority",
     order: "asc",
   });
 
@@ -61,33 +67,33 @@ const JobProvider = ({ children }: Props) => {
     return data;
   };
 
-  const filterJobs = (
-    search?: string,
-    selected?: IJobPriority,
-    sort?: ISortType
-  ) => {
-    if (search) {
-      const filteredJobs = jobs.filter((job) => {
-        return job.jobName.toLowerCase().includes(search?.toLowerCase());
-      });
-      // sort the filtered jobs
-      const sortedJobs = sortData(filteredJobs, sort!);
-      setFilteredCount(sortedJobs.length);
-      return sortedJobs;
-    }
-    if (selected) {
-      const filteredJobs = jobs.filter((job) => {
-        return job.jobPriority.key === selected.key;
-      });
-      // sort the filtered jobs
-      const sortedJobs = sortData(filteredJobs, sort!);
-      setFilteredCount(sortedJobs.length);
-      return sortedJobs;
-    }
+  const filterJobs = useCallback(
+    (search?: string, selected?: IJobPriority, sort?: ISortType) => {
+      if (search) {
+        const filteredJobs = jobs.filter((job) => {
+          return job.jobName.toLowerCase().includes(search?.toLowerCase());
+        });
+        // sort the filtered jobs
+        const sortedJobs = sortData(filteredJobs, sort!);
+        setFilteredCount(sortedJobs.length);
+        return sortedJobs;
+      }
+      if (selected) {
+        const filteredJobs = jobs.filter((job) => {
+          return job.jobPriority.key === selected.key;
+        });
+        // sort the filtered jobs
+        const sortedJobs = sortData(filteredJobs, sort!);
+        setFilteredCount(sortedJobs.length);
+        return sortedJobs;
+      }
 
-    setFilteredCount(total);
-    return sortData(jobs, sort!);
-  };
+      setFilteredCount(total);
+      return sortData(jobs, sort!);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [search, selected, sort.sortBy, sort.order, []]
+  );
 
   const deleteJob = (id: string) => {
     const filteredJobs = jobs.filter((job) => job.id !== id);
@@ -95,24 +101,20 @@ const JobProvider = ({ children }: Props) => {
   };
 
   const createId = () => {
-    // id generator
     return "_" + Math.random().toString(36).substr(2, 9);
   };
 
   const addJob = (job: IJobType) => {
-    const newJob = { ...job, id: createId() };
-    setJobs([...jobs, newJob]);
-    localStorage.setItem("jobs", JSON.stringify([...jobs, newJob]));
+    const newJobs = [...jobs, { ...job, id: createId() }];
+    setTotal(newJobs.length);
+    setJobs(newJobs);
+    localStorage.setItem("jobs", JSON.stringify([...jobs, newJobs]));
   };
 
   useEffect(() => {
     const data = localStorage.getItem("jobs");
     if (data) {
-      setJobs(
-        JSON.parse(data).sort((a: any, b: any) => {
-          return a.jobPriority.value - b.jobPriority.value;
-        })
-      );
+      setJobs(JSON.parse(data));
       setTotal(JSON.parse(data).length);
     }
   }, []);

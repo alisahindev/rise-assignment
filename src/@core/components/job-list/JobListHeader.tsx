@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useJob } from "src/context";
@@ -124,4 +124,4 @@ const JobListHeader = () => {
   );
 };
 
-export default JobListHeader;
+export default memo(JobListHeader);

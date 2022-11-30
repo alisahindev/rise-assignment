@@ -20,6 +20,12 @@ import Delete from "../icons/Delete";
 import { priorityColors } from "src/constants";
 import Chip from "@mui/material/Chip";
 
+const breakpoints = {
+  jobName: 8,
+  jobPriority: 3,
+  action: 1,
+};
+
 const JobListContent = () => {
   const { filterJobs, search, selected, sort, setSort } = useJob();
   const containerRef = React.useRef(null);
@@ -41,11 +47,12 @@ const JobListContent = () => {
               p: 1,
             }}
           >
-            <Grid item xs={8}>
+            <Grid item xs={breakpoints.jobName}>
               <Typography
                 variant='body2'
-                color={"GrayText"}
+                color={sort.sortBy === "jobName" ? "primary" : "GrayText"}
                 fontWeight={700}
+                sx={{ cursor: "pointer" }}
                 onClick={() => {
                   setSort({
                     sortBy: "jobName",
@@ -56,11 +63,12 @@ const JobListContent = () => {
                 Name
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={breakpoints.jobPriority}>
               <Typography
                 variant='body2'
-                color={"GrayText"}
+                color={sort.sortBy === "jobPriority" ? "primary" : "GrayText"}
                 fontWeight={700}
+                sx={{ cursor: "pointer" }}
                 onClick={() => {
                   setSort({
                     sortBy: "jobPriority",
@@ -71,7 +79,7 @@ const JobListContent = () => {
                 Priority
               </Typography>
             </Grid>
-            <Grid item xs={1} textAlign='center'>
+            <Grid item xs={breakpoints.action} textAlign='center'>
               <Typography variant='body2' color={"GrayText"} fontWeight={700}>
                 Action
               </Typography>
@@ -83,6 +91,9 @@ const JobListContent = () => {
               "& .MuiListItem-root:nth-of-type(odd)": {
                 backgroundColor: "#f5f5f5",
               },
+              maxHeight: "43vh",
+              overflow: "hidden",
+              overflowY: "auto",
             }}
             ref={containerRef}
           >
@@ -92,10 +103,10 @@ const JobListContent = () => {
                   <ListItem key={job.id} disablePadding>
                     <ListItemButton sx={{ p: 1, py: 2 }} disableTouchRipple>
                       <Grid container>
-                        <Grid item xs={8}>
+                        <Grid item xs={breakpoints.jobName}>
                           <ListItemText primary={job.jobName} />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={breakpoints.jobPriority}>
                           <Chip
                             label={job.jobPriority.label}
                             sx={{
@@ -109,7 +120,7 @@ const JobListContent = () => {
                             }}
                           />
                         </Grid>
-                        <Grid item xs={1}>
+                        <Grid item xs={breakpoints.action}>
                           <Stack
                             direction='row'
                             justifyContent={"center"}
