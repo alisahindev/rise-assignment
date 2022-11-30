@@ -5,7 +5,7 @@ interface IButtonProps extends ButtonProps {}
 
 const RiseButton = ({ ...props }: IButtonProps) => {
   return (
-    <Button {...props} sx={{ p: "8px 16px", borderRadius: "4px", mt: "24px" }}>
+    <Button {...props} sx={{ p: "8px 16px", borderRadius: "4px" }}>
       {props.children}
     </Button>
   );

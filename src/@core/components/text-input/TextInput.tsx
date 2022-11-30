@@ -7,9 +7,6 @@ import { InputBaseProps } from "@mui/material/InputBase/InputBase";
 import FormHelperText from "@mui/material/FormHelperText";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
-  "label + &": {
-    marginTop: theme.spacing(3),
-  },
   "& .MuiInputBase-input": {
     borderRadius: 6,
     position: "relative",
@@ -36,7 +33,7 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 }));
 
 interface Props extends InputBaseProps {
-  label: string;
+  label?: string;
   helperText?: string | undefined;
   error?: boolean;
 }

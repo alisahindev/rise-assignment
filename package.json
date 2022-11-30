@@ -14,7 +14,7 @@
     "@emotion/server": "latest",
     "@emotion/styled": "latest",
     "@hookform/resolvers": "^2.9.10",
-    "@mui/icons-material": "latest",
+    "@mui/icons-material": "^5.10.16",
     "@mui/material": "latest",
     "@next/font": "latest",
     "@types/node": "18.11.9",

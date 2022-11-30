@@ -12,15 +12,18 @@ import * as yup from "yup";
 import { fetcher } from "src/utils/fetcher";
 import { Chip, ListItem, ListItemText } from "@mui/material";
 import { useJob } from "src/context";
+import { priorityColors } from "src/constants";
 
 type FormData = {
   jobName: string;
-  jobPriority: string;
+  jobPriority: {
+    name: string;
+    value: number;
+  };
 };
 
 const CreateBar = () => {
-  const [jobPriorities, setJobPriorities] = React.useState([]);
-  const { addJob } = useJob();
+  const { addJob, jobPriorities } = useJob();
 
   const schema = yup
     .object({
@@ -32,22 +35,13 @@ const CreateBar = () => {
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<FormData>({ resolver: yupResolver(schema) });
 
-  useEffect(() => {
-    fetcher("/server", "GET").then((res) => setJobPriorities(res));
-  }, []);
-
-  const priorityColors: any = {
-    Urgent: "error",
-    Regular: "warning",
-    Trivial: "primary",
-  };
-
   const onSubmit = (data: any) => {
-    const { jobName, jobPriority } = data;
-    addJob({ jobName, jobPriority: jobPriority.label });
+    addJob(data);
+    reset();
   };
 
   return (
@@ -95,10 +89,10 @@ const CreateBar = () => {
                       components='div'
                       sx={{
                         backgroundColor: (theme: any) =>
-                          theme.palette[priorityColors[option.key]].light,
+                          theme.palette[priorityColors[opt.value]].light,
                       }}
                     >
-                      <ListItemText primary={option.key} />
+                      <ListItemText primary={opt.label} />
                     </ListItem>
                   );
                 }}
