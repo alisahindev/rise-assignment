@@ -11,6 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { fetcher } from "src/utils/fetcher";
 import { Chip, ListItem, ListItemText } from "@mui/material";
+import { useJob } from "src/context";
 
 type FormData = {
   jobName: string;
@@ -19,6 +20,7 @@ type FormData = {
 
 const CreateBar = () => {
   const [jobPriorities, setJobPriorities] = React.useState([]);
+  const { addJob } = useJob();
 
   const schema = yup
     .object({
@@ -43,7 +45,10 @@ const CreateBar = () => {
     Trivial: "primary",
   };
 
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = (data: any) => {
+    const { jobName, jobPriority } = data;
+    addJob({ jobName, jobPriority: jobPriority.label });
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
