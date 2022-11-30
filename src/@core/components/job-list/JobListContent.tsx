@@ -23,9 +23,16 @@ import DeleteModal from "../modal/DeleteModal";
 import EditModal from "../modal/EditModal";
 
 const breakpoints = {
-  jobName: 8,
-  jobPriority: 3,
-  action: 1,
+  xs: {
+    jobName: 7,
+    jobPriority: 3,
+    action: 2,
+  },
+  md: {
+    jobName: 8,
+    jobPriority: 3,
+    action: 1,
+  },
 };
 
 const JobListContent = () => {
@@ -49,7 +56,7 @@ const JobListContent = () => {
               p: 1,
             }}
           >
-            <Grid item xs={breakpoints.jobName}>
+            <Grid item md={breakpoints.md.jobName} xs={breakpoints.xs.jobName}>
               <Typography
                 variant='body2'
                 color={sort.sortBy === "jobName" ? "primary" : "GrayText"}
@@ -65,7 +72,11 @@ const JobListContent = () => {
                 Name
               </Typography>
             </Grid>
-            <Grid item xs={breakpoints.jobPriority}>
+            <Grid
+              item
+              md={breakpoints.md.jobPriority}
+              xs={breakpoints.xs.jobPriority}
+            >
               <Typography
                 variant='body2'
                 color={sort.sortBy === "jobPriority" ? "primary" : "GrayText"}
@@ -81,7 +92,12 @@ const JobListContent = () => {
                 Priority
               </Typography>
             </Grid>
-            <Grid item xs={breakpoints.action} textAlign='center'>
+            <Grid
+              item
+              md={breakpoints.md.action}
+              xs={breakpoints.xs.action}
+              textAlign='center'
+            >
               <Typography variant='body2' color={"GrayText"} fontWeight={700}>
                 Action
               </Typography>
@@ -105,10 +121,18 @@ const JobListContent = () => {
                   <ListItem key={job.id} disablePadding>
                     <ListItemButton sx={{ p: 1, py: 2 }} disableTouchRipple>
                       <Grid container>
-                        <Grid item xs={breakpoints.jobName}>
+                        <Grid
+                          item
+                          md={breakpoints.md.jobName}
+                          xs={breakpoints.xs.jobName}
+                        >
                           <ListItemText primary={job.jobName} />
                         </Grid>
-                        <Grid item xs={breakpoints.jobPriority}>
+                        <Grid
+                          item
+                          md={breakpoints.md.jobPriority}
+                          xs={breakpoints.xs.jobPriority}
+                        >
                           <Chip
                             label={job.jobPriority?.label}
                             sx={{
@@ -122,7 +146,11 @@ const JobListContent = () => {
                             }}
                           />
                         </Grid>
-                        <Grid item xs={breakpoints.action}>
+                        <Grid
+                          item
+                          md={breakpoints.md.action}
+                          xs={breakpoints.xs.action}
+                        >
                           <Stack
                             direction='row'
                             justifyContent={"center"}
