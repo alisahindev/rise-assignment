@@ -7,8 +7,11 @@ import { InputBaseProps } from "@mui/material/InputBase/InputBase";
 import FormHelperText from "@mui/material/FormHelperText";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
+  "label + &": {
+    marginTop: theme.spacing(3),
+  },
   "& .MuiInputBase-input": {
-    borderRadius: 6,
+    borderRadius: 4,
     position: "relative",
     backgroundColor: theme.palette.background.default,
     border: `1px solid ${theme.palette.grey[300]}`,

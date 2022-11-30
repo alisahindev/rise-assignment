@@ -16,6 +16,7 @@ const AutoComplete = ({ ...props }: IAutoCompleteProps) => {
           bgcolor: "background.paper",
           color: (theme) =>
             theme.palette.getContrastText(theme.palette.background.paper),
+          borderRadius: 4,
         },
       }}
       id='custom-input-demo'

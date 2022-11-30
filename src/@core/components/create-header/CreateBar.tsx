@@ -13,6 +13,7 @@ import { fetcher } from "src/utils/fetcher";
 import { Chip, ListItem, ListItemText } from "@mui/material";
 import { useJob } from "src/context";
 import { priorityColors } from "src/constants";
+import AutoCompleteFormInput from "../autocomplete/AutoCompleteFormInput";
 
 type FormData = {
   jobName: string;
@@ -77,47 +78,31 @@ const CreateBar = () => {
             name='jobPriority'
             control={control}
             render={({ field: { onChange, value } }) => (
-              <AutoComplete
-                getOptionLabel={(option) => option.label || ""}
-                onChange={(e, value) => onChange(value)}
-                value={value || ""}
+              <AutoCompleteFormInput
                 options={jobPriorities}
-                renderOption={(option: any, opt, state) => {
-                  return (
-                    <ListItem
-                      {...option}
-                      components='div'
-                      sx={{
-                        backgroundColor: (theme: any) =>
-                          theme.palette[priorityColors[opt.value]].light,
-                      }}
-                    >
-                      <ListItemText primary={opt.label} />
-                    </ListItem>
-                  );
-                }}
-                renderInput={(params) => (
-                  <div ref={params.InputProps.ref}>
-                    <TextInput
-                      {...params}
-                      label='Job Priority'
-                      placeholder='Choose'
-                      error={!!errors.jobPriority}
-                      helperText={errors.jobPriority?.message}
-                    />
-                  </div>
-                )}
+                value={value}
+                onChange={onChange}
+                errors={errors}
               />
             )}
           />
         </Grid>
-        <Grid item lg={1} md={2} xs={12}>
+        <Grid
+          item
+          lg={1}
+          md={2}
+          xs={12}
+          sx={{
+            "& button": {
+              mt: "24px",
+            },
+          }}
+        >
           <Button
             type='submit'
             variant='contained'
             fullWidth
             startIcon={<Plus />}
-            sx={{ justifySelf: "flex-end" }}
           >
             Create
           </Button>

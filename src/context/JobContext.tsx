@@ -20,7 +20,7 @@ type IJobPriority = {
   label: string;
 };
 
-type IJobType = {
+export type IJobType = {
   jobPriority: IJobPriority;
   jobName: string;
   id?: string;
@@ -58,9 +58,9 @@ const JobProvider = ({ children }: Props) => {
     } else if (sort.sortBy === "jobPriority") {
       data.sort((a: any, b: any) => {
         if (sort.order === "asc") {
-          return a[sort.sortBy].value > b[sort.sortBy].value ? 1 : -1;
+          return a[sort.sortBy]?.value > b[sort.sortBy]?.value ? 1 : -1;
         }
-        return a[sort.sortBy].value < b[sort.sortBy].value ? 1 : -1;
+        return a[sort.sortBy]?.value < b[sort.sortBy]?.value ? 1 : -1;
       });
     }
 
@@ -97,7 +97,15 @@ const JobProvider = ({ children }: Props) => {
 
   const deleteJob = (id: string) => {
     const filteredJobs = jobs.filter((job) => job.id !== id);
+    localStorage.setItem("jobs", JSON.stringify(filteredJobs));
     setJobs(filteredJobs);
+  };
+
+  const editJob = (job: IJobType) => {
+    const filteredJobs = jobs.filter((j) => j.id !== job.id);
+    const updatedJobs = [...filteredJobs, job];
+    localStorage.setItem("jobs", JSON.stringify(updatedJobs));
+    setJobs(updatedJobs);
   };
 
   const createId = () => {
@@ -105,10 +113,11 @@ const JobProvider = ({ children }: Props) => {
   };
 
   const addJob = (job: IJobType) => {
-    const newJobs = [...jobs, { ...job, id: createId() }];
+    let newJobs;
+    newJobs = [...jobs, { ...job, id: createId() }];
     setTotal(newJobs.length);
     setJobs(newJobs);
-    localStorage.setItem("jobs", JSON.stringify([...jobs, newJobs]));
+    localStorage.setItem("jobs", JSON.stringify(newJobs));
   };
 
   useEffect(() => {
@@ -132,6 +141,7 @@ const JobProvider = ({ children }: Props) => {
     setSort,
     selected,
     setSelected,
+    editJob,
   } as any;
 
   return <JobContext.Provider value={values}>{children}</JobContext.Provider>;

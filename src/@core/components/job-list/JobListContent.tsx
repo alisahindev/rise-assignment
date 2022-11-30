@@ -19,6 +19,8 @@ import Edit from "../icons/Edit";
 import Delete from "../icons/Delete";
 import { priorityColors } from "src/constants";
 import Chip from "@mui/material/Chip";
+import DeleteModal from "../modal/DeleteModal";
+import EditModal from "../modal/EditModal";
 
 const breakpoints = {
   jobName: 8,
@@ -108,12 +110,12 @@ const JobListContent = () => {
                         </Grid>
                         <Grid item xs={breakpoints.jobPriority}>
                           <Chip
-                            label={job.jobPriority.label}
+                            label={job.jobPriority?.label}
                             sx={{
                               backgroundColor: (theme: any) =>
                                 theme.palette[
-                                  priorityColors[job.jobPriority.value]
-                                ].light,
+                                  priorityColors[job.jobPriority?.value]
+                                ]?.light || "#fff",
                               borderRadius: "4px",
                               color: "white",
                               fontWeight: 700,
@@ -127,28 +129,8 @@ const JobListContent = () => {
                             spacing={1}
                             margin='auto'
                           >
-                            <IconButton
-                              sx={{
-                                p: 1,
-                                borderRadius: "4px",
-                                backgroundColor: (theme) =>
-                                  theme.palette.grey[200],
-                              }}
-                              aria-label='edit'
-                            >
-                              <Edit width='20' />
-                            </IconButton>
-                            <IconButton
-                              sx={{
-                                p: 1,
-                                borderRadius: "4px",
-                                backgroundColor: (theme) =>
-                                  theme.palette.grey[200],
-                              }}
-                              aria-label='delete'
-                            >
-                              <Delete width='20' />
-                            </IconButton>
+                            <EditModal job={job} />
+                            <DeleteModal id={job.id} />
                           </Stack>
                         </Grid>
                       </Grid>
