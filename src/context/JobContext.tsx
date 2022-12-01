@@ -98,6 +98,7 @@ const JobProvider = ({ children }: Props) => {
   const deleteJob = (id: string) => {
     const filteredJobs = jobs.filter((job) => job.id !== id);
     localStorage.setItem("jobs", JSON.stringify(filteredJobs));
+    setTotal(filteredJobs.length);
     setJobs(filteredJobs);
   };
 
